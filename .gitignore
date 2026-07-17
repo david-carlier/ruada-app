@@ -1,0 +1,22 @@
+# Environment variables (secrets)
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.hypothesis/
+.pytest_cache/
+build/
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store

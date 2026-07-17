@@ -1,4 +1,0 @@
-cryptography
-PyJWT
-jwcrypto
-requests
