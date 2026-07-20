@@ -1,0 +1,13 @@
+@if (user$ | async; as user) {
+  <div class="p-4">
+    <h2 class="text-lg font-semibold mb-2">User Info</h2>
+    <pre class="bg-gray-100 p-4 rounded overflow-auto">{{ user | json }}</pre>
+  </div>
+}
+
+@if (tokens$ | async; as tokens) {
+  <div class="p-4 font-mono text-sm">
+    <h2 class="text-lg font-semibold mb-2">Cognito Tokens</h2>
+    <pre class="bg-gray-100 p-4 rounded overflow-auto">{{ tokens | json }}</pre>
+  </div>
+}
