@@ -1,9 +1,27 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login';
+import { ProtectedPageComponent } from './protected-page/protected-page';
+import { HomeComponent } from './protected-page/home/home';
+import { EventsComponent } from './protected-page/events/events';
+import { EventDetailComponent } from './protected-page/events/event-detail/event-detail';
+import { EventNewComponent } from './protected-page/events/event-new/event-new';
+import { MuziekComponent } from './protected-page/muziek/muziek';
+import { DocumentenComponent } from './protected-page/documenten/documenten';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', canActivate: [authGuard], component: HomeComponent },
+  {
+    path: '',
+    component: ProtectedPageComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: HomeComponent },
+      { path: 'events', component: EventsComponent },
+      { path: 'events/new', component: EventNewComponent },
+      { path: 'events/:id', component: EventDetailComponent },
+      { path: 'muziek', component: MuziekComponent },
+      { path: 'documenten', component: DocumentenComponent },
+    ],
+  },
 ];

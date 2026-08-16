@@ -1,0 +1,73 @@
+<!-- Mobile topbar -->
+<div class="md:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
+  <img src="logo.jpg" alt="Ruada Online" class="h-10 w-auto object-contain" />
+  <button (click)="menuOpen = !menuOpen" class="text-gray-600 hover:text-indigo-600 transition">
+    @if (menuOpen) {
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+    } @else {
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+    }
+  </button>
+</div>
+
+<!-- Mobile menu -->
+@if (menuOpen) {
+  <div class="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex flex-col gap-1">
+    <a routerLink="/" routerLinkActive="bg-indigo-50 text-indigo-600" [routerLinkActiveOptions]="{ exact: true }"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Home</a>
+    <a routerLink="/events" routerLinkActive="bg-indigo-50 text-indigo-600"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Events</a>
+    <a routerLink="/muziek" routerLinkActive="bg-indigo-50 text-indigo-600"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Muziek</a>
+    <a routerLink="/documenten" routerLinkActive="bg-indigo-50 text-indigo-600"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Documenten</a>
+
+    @if (user$ | async; as user) {
+      <div class="border-t border-gray-200 mt-2 pt-3">
+        <p class="text-sm font-medium text-gray-800 truncate">{{ user.name }}</p>
+        <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
+        @if (isAdmin$ | async) {
+          <p class="text-[10px] font-semibold text-indigo-500 tracking-wide mb-3">ADMIN</p>
+        } @else {
+          <div class="mb-3"></div>
+        }
+        <button (click)="logoutClick.emit()"
+          class="w-full text-sm text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-sm transition">
+          Uitloggen
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<!-- Desktop sidebar -->
+<nav class="hidden md:flex flex-col w-56 h-screen bg-white border-r border-gray-200 px-4 py-6">
+  <img src="logo.jpg" alt="Ruada Online" class="h-[120px] w-auto object-contain mb-8" />
+
+  <div class="flex flex-col gap-1 flex-1">
+    <a routerLink="/" routerLinkActive="bg-indigo-50 text-indigo-600" [routerLinkActiveOptions]="{ exact: true }"
+      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Home</a>
+    <a routerLink="/events" routerLinkActive="bg-indigo-50 text-indigo-600"
+      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Events</a>
+    <a routerLink="/muziek" routerLinkActive="bg-indigo-50 text-indigo-600"
+      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Muziek</a>
+    <a routerLink="/documenten" routerLinkActive="bg-indigo-50 text-indigo-600"
+      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Documenten</a>
+  </div>
+
+  @if (user$ | async; as user) {
+    <div class="border-t border-gray-200 pt-4">
+      <p class="text-sm font-medium text-gray-800 truncate">{{ user.name }}</p>
+      <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
+      @if (isAdmin$ | async) {
+        <p class="text-[10px] font-semibold text-indigo-500 tracking-wide mb-3">ADMIN</p>
+      } @else {
+        <div class="mb-3"></div>
+      }
+      <button (click)="logoutClick.emit()"
+        class="w-full text-sm text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-sm transition">
+        Uitloggen
+      </button>
+    </div>
+  }
+</nav>

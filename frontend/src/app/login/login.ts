@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  templateUrl: './login.html',
+  styleUrl: './login.css',
 })
 export class LoginComponent implements OnInit {
-  private readonly oidc = inject(OidcSecurityService, { optional: true });
-  private readonly router = inject(Router);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly oidc = this.isBrowser ? inject(OidcSecurityService) : null;
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
