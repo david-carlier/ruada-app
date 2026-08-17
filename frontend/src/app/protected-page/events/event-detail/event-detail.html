@@ -1,11 +1,19 @@
 @if (event(); as event) {
-  <div class="max-w-lg">
+  <div>
     <button (click)="back()" class="flex items-center gap-1 text-xs text-gray-500 hover:text-indigo-600 transition mb-6">
       <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       Terug naar kalender
     </button>
 
-    <h1 class="text-xl font-semibold text-gray-800 mb-2">{{ event.title }}</h1>
+    <div class="flex items-center justify-between mb-2">
+      <h1 class="text-xl font-semibold text-gray-800">{{ event.title }}</h1>
+      <button (click)="delete()" [disabled]="deleting()"
+        *ngIf="isAdmin$ | async"
+        class="flex items-center gap-1.5 text-xs text-red-500 hover:text-red-700 transition disabled:opacity-50">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        {{ deleting() ? 'Verwijderen...' : 'Verwijderen' }}
+      </button>
+    </div>
     @if (event.color && EVENT_COLORS[event.color]; as c) {
       <span class="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-sm mb-4"
         [ngStyle]="{ 'background-color': c.bg, 'color': c.text }">
@@ -13,29 +21,56 @@
       </span>
     }
 
-    <div class="flex flex-col gap-3 text-sm text-gray-600">
-      <div class="flex gap-2">
-        <span class="font-medium text-gray-700 w-20">Datum</span>
-        <span class="capitalize">{{ formatDate(event.date) }}</span>
+    <div class="mt-4 grid grid-cols-3 text-sm border border-gray-100 rounded-sm overflow-hidden">
+      <div class="flex gap-3 items-start px-4 py-4 border-r border-gray-100">
+        <svg class="w-4 h-4 mt-0.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-xs text-gray-400">Datum</span>
+          <span class="text-gray-700 capitalize">{{ formatDate(event.date) }}</span>
+        </div>
       </div>
+
       @if (event.allDay) {
-        <div class="flex gap-2">
-          <span class="font-medium text-gray-700 w-20">Tijd</span>
-          <span>Hele dag</span>
+        <div class="flex gap-3 items-start px-4 py-4 border-r border-gray-100">
+          <svg class="w-4 h-4 mt-0.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-xs text-gray-400">Tijd</span>
+            <span class="text-gray-700">Hele dag</span>
+          </div>
         </div>
       } @else if (event.startTime) {
-        <div class="flex gap-2">
-          <span class="font-medium text-gray-700 w-20">Tijd</span>
-          <span>{{ event.startTime }}{{ event.endTime ? ' – ' + event.endTime : '' }}</span>
+        <div class="flex gap-3 items-start px-4 py-4 border-r border-gray-100">
+          <svg class="w-4 h-4 mt-0.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-xs text-gray-400">Tijd</span>
+            <span class="text-gray-700">{{ event.startTime }}{{ event.endTime ? ' – ' + event.endTime : '' }}</span>
+          </div>
         </div>
+      } @else {
+        <div class="border-r border-gray-100"></div>
       }
+
       @if (event.location) {
-        <div class="flex gap-2">
-          <span class="font-medium text-gray-700 w-20">Locatie</span>
-          <span>{{ event.location }}</span>
+        <div class="flex gap-3 items-start px-4 py-4">
+          <svg class="w-4 h-4 mt-0.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-xs text-gray-400">Locatie</span>
+            <span class="text-gray-700">{{ event.location }}</span>
+          </div>
         </div>
+      } @else {
+        <div></div>
       }
     </div>
+
+    @if (event.description) {
+      <div class="mt-4 border border-gray-100 rounded-sm overflow-hidden">
+        <div class="px-4 py-2 bg-gray-50 border-b border-gray-100">
+          <span class="text-xs font-medium text-gray-500">Beschrijving</span>
+        </div>
+        <p class="px-4 py-3 text-sm text-gray-600 whitespace-pre-line">{{ event.description }}</p>
+      </div>
+    }
   </div>
 } @else {
   <p class="text-sm text-gray-400">Event niet gevonden.</p>

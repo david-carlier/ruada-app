@@ -17,4 +17,5 @@ export interface CalendarEvent {
   color?: EventColor;
   location?: string;
   allDay?: boolean;
+  description?: string;
 }

@@ -47,6 +47,12 @@
     </div>
 
     <div class="flex flex-col gap-1">
+      <label class="text-xs font-medium text-gray-700">Beschrijving</label>
+      <textarea [(ngModel)]="form.description" name="description" rows="3"
+        class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400 resize-none"></textarea>
+    </div>
+
+    <div class="flex flex-col gap-1">
       <label class="text-xs font-medium text-gray-700">Kleur</label>
       <div class="flex gap-2 flex-wrap">
         @for (option of colorOptions; track option[0]) {

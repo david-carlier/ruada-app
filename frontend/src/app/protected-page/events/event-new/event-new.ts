@@ -25,6 +25,7 @@ export class EventNewComponent {
     endTime: this.nextHour(1),
     color: 'oefenen' as EventColor,
     location: '',
+    description: '',
   };
 
   private nextHour(offset = 0): string {
@@ -52,6 +53,7 @@ export class EventNewComponent {
       color: this.form.color,
       location: this.form.location || undefined,
       allDay: this.form.allDay || undefined,
+      description: this.form.description || undefined,
     });
     this.saving.set(false);
     this.router.navigate(['/events']);
