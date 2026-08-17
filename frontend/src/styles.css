@@ -1,3 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@media print {
+  app-navigation,
+  main > div > *:not(app-song-detail),
+  app-song-detail .print\:hidden {
+    display: none !important;
+  }
+
+  body, html { background: white; }
+
+  main {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  main > div {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}

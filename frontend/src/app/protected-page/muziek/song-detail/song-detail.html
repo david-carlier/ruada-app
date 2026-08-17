@@ -1,0 +1,90 @@
+@if (song(); as song) {
+  <div class="max-w-2xl print:max-w-full">
+
+    <!-- Terug knop (verborgen bij printen) -->
+    <button (click)="back()" class="print:hidden flex items-center gap-1 text-xs text-gray-500 hover:text-indigo-600 transition mb-6">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Overzicht
+    </button>
+
+    <!-- Header -->
+    <div class="flex items-start justify-between mb-1">
+      <div>
+        <h1 class="text-xl font-semibold text-gray-800">{{ song.title }}</h1>
+        @if (song.artist) {
+          <p class="text-sm text-gray-400 mt-0.5">{{ song.artist }}</p>
+        }
+        @if (song.genre) {
+          <p class="text-xs text-indigo-400 mt-0.5">{{ SONG_GENRES[song.genre] }}</p>
+        }
+        <div class="print:hidden flex items-center gap-2 mt-3 sm:hidden">
+          @if (song.lyrics) {
+            <button (click)="print()" class="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 transition border border-gray-200 rounded px-2.5 py-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              Printen
+            </button>
+          }
+          @if (isAdmin$ | async) {
+            <button (click)="delete()" [disabled]="deleting()"
+              class="flex items-center gap-1.5 text-xs text-red-500 hover:text-red-700 transition disabled:opacity-50">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              {{ deleting() ? 'Verwijderen...' : 'Verwijderen' }}
+            </button>
+          }
+        </div>
+      </div>
+      <div class="print:hidden hidden sm:flex items-center gap-2">
+        @if (song.lyrics) {
+          <button (click)="print()" class="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 transition border border-gray-200 rounded px-2.5 py-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            Printen
+          </button>
+        }
+        @if (isAdmin$ | async) {
+          <button (click)="delete()" [disabled]="deleting()"
+            class="flex items-center gap-1.5 text-xs text-red-500 hover:text-red-700 transition disabled:opacity-50">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            {{ deleting() ? 'Verwijderen...' : 'Verwijderen' }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Links -->
+    @if (song.spotify || song.youtube) {
+      <div class="print:hidden flex gap-3 mt-4 mb-6">
+        @if (song.spotify) {
+          <a [href]="song.spotify" target="_blank"
+            class="flex items-center gap-2 text-xs font-medium px-3 py-2 rounded-sm bg-green-50 text-green-700 hover:bg-green-100 transition">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.622.622 0 01-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.622.622 0 11-.277-1.215c3.809-.87 7.076-.496 9.712 1.115a.623.623 0 01.207.857zm1.223-2.722a.78.78 0 01-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.78.78 0 01-.973-.519.781.781 0 01.52-.973c3.632-1.102 8.147-.568 11.233 1.329a.78.78 0 01.257 1.072zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 11-.543-1.794c3.532-1.072 9.404-.865 13.115 1.338a.937.937 0 01-.955 1.613z"/></svg>
+            Beluisteren op Spotify
+          </a>
+        }
+        @if (song.youtube) {
+          <a [href]="song.youtube" target="_blank"
+            class="flex items-center gap-2 text-xs font-medium px-3 py-2 rounded-sm bg-red-50 text-red-700 hover:bg-red-100 transition">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            Bekijken op YouTube
+          </a>
+        }
+      </div>
+    }
+
+    <!-- YouTube embed -->
+    @if (song.youtube) {
+      <div class="print:hidden mb-6 rounded-sm overflow-hidden border border-gray-100">
+        <iframe [src]="youtubeEmbedUrl(song.youtube)" class="w-full aspect-video" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    }
+
+    <!-- Songtekst -->
+    @if (song.lyrics) {
+      <pre class="mt-2 text-[24px] font-medium text-gray-700 whitespace-pre-wrap font-sans leading-loose p-[30px] bg-white">{{ song.lyrics }}</pre>
+    }
+
+  </div>
+} @else {
+  <p class="text-sm text-gray-400">Nummer niet gevonden.</p>
+}
