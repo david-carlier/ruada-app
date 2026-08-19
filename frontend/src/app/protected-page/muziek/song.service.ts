@@ -31,12 +31,19 @@ export class SongService {
   async fetchById(id: string): Promise<Song | undefined> {
     const headers = await this.getHeaders();
     const items = await firstValueFrom(this.http.get<Song[]>(API_URL, { headers }));
+    this.songs.set(items);
     return items.find(s => s.id === id);
   }
 
   async createSong(song: Omit<Song, 'id'>): Promise<void> {
     const headers = await this.getHeaders();
     await firstValueFrom(this.http.post(API_URL, song, { headers }));
+    await this.loadSongs();
+  }
+
+  async updateSong(id: string, song: Omit<Song, 'id'>): Promise<void> {
+    const headers = await this.getHeaders();
+    await firstValueFrom(this.http.put(`${API_URL}/${id}`, song, { headers }));
     await this.loadSongs();
   }
 

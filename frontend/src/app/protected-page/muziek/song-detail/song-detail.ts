@@ -33,6 +33,10 @@ export class SongDetailComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${id}`);
   }
 
+  edit() {
+    this.router.navigate(['/muziek', this.song()!.id, 'edit']);
+  }
+
   async delete() {
     this.deleting.set(true);
     await this.songService.deleteSong(this.song()!.id);
