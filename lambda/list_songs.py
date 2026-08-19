@@ -8,6 +8,5 @@ def handler(event, context):
     result = table.scan()
     return {
         'statusCode': 200,
-        'headers': { 'Access-Control-Allow-Origin': 'http://localhost:4200' },
         'body': json.dumps(result['Items'])
     }

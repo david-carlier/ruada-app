@@ -12,7 +12,6 @@ def handler(event, context):
     if not body:
         return {
             'statusCode': 400,
-            'headers': { 'Access-Control-Allow-Origin': 'http://localhost:4200' },
             'body': json.dumps({'error': 'No valid fields provided'})
         }
     expressions = [f'#{k}=:{k}' for k in body]
@@ -24,6 +23,5 @@ def handler(event, context):
     )
     return {
         'statusCode': 200,
-        'headers': { 'Access-Control-Allow-Origin': 'http://localhost:4200' },
         'body': json.dumps({'id': id, **body})
     }

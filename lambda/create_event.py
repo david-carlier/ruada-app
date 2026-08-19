@@ -21,6 +21,5 @@ def handler(event, context):
     table.put_item(Item=item)
     return {
         'statusCode': 201,
-        'headers': { 'Access-Control-Allow-Origin': 'http://localhost:4200' },
         'body': json.dumps(item)
     }
