@@ -11,4 +11,15 @@ export class AuthService {
   );
 
   readonly token$ = this.oidc.getIdToken();
+
+  readonly userId$ = this.oidc.getPayloadFromIdToken().pipe(
+    map((payload: any) => payload?.['sub'] as string | undefined)
+  );
+
+  readonly children$ = this.oidc.getPayloadFromIdToken().pipe(
+    map((payload: any) => {
+      const raw = payload?.['custom:children'] ?? '';
+      return raw ? (raw as string).split(',').map((s: string) => s.trim()).filter(Boolean) : [];
+    })
+  );
 }

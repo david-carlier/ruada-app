@@ -51,14 +51,11 @@
   <!-- Mobiel lijst -->
   <div class="flex flex-col gap-2 sm:hidden">
     @for (day of monthDays(); track day) {
-      @if (isCurrentMonth(day)) {
+      @if (isCurrentMonth(day) && eventsForDay(day).length > 0) {
         <div [ngClass]="{ 'ring-1 ring-indigo-400': isToday(day) }" class="border border-gray-200 rounded-sm bg-white p-3">
           <p [ngClass]="{ 'text-indigo-600 font-bold': isToday(day), 'text-gray-500': !isToday(day) }" class="text-xs font-medium mb-2 capitalize">
             {{ formatWeekDay(day) }}
           </p>
-          @if (eventsForDay(day).length === 0) {
-            <p class="text-xs text-gray-300">Geen events</p>
-          }
           <div class="flex flex-col gap-1 overflow-y-auto max-h-[14rem]">
             @for (event of eventsForDay(day); track event.id) {
               <div (click)="openEvent(event)" [ngStyle]="colorStyle(event.color)"
@@ -69,6 +66,9 @@
           </div>
         </div>
       }
+    }
+    @if (!hasEventsInMonth()) {
+      <p class="text-sm text-gray-400 py-4 text-center">Geen events gepland.</p>
     }
   </div>
 }
@@ -100,28 +100,28 @@
   <!-- Mobiel lijst -->
   <div class="flex flex-col gap-2 sm:hidden">
     @for (day of weekDates(); track day) {
-      <div [ngClass]="{ 'ring-1 ring-indigo-400': isToday(day) }" class="border border-gray-200 rounded-sm bg-white p-3">
-        <p [ngClass]="{ 'text-indigo-600 font-bold': isToday(day), 'text-gray-500': !isToday(day) }" class="text-xs font-medium mb-2 capitalize">
-          {{ formatWeekDay(day) }}
-        </p>
-        @if (eventsForDay(day).length === 0) {
-          <p class="text-xs text-gray-300">Geen events</p>
-        }
-        <div class="flex flex-col gap-1 overflow-y-auto max-h-[14rem]">
-          @for (event of eventsForDay(day); track event.id) {
-            <div (click)="openEvent(event)" [ngStyle]="colorStyle(event.color)"
-              class="text-xs px-2 py-1 rounded cursor-pointer hover:opacity-80 transition">
-              @if (event.allDay) { <p class="opacity-60 text-[10px]">Hele dag</p> } @else if (event.startTime) { <p class="opacity-60 text-[10px]">{{ event.startTime }}{{ event.endTime ? ' – ' + event.endTime : '' }}</p> }
-              <p class="font-medium truncate">{{ event.title }}</p>
-            </div>
-          }
+      @if (eventsForDay(day).length > 0) {
+        <div [ngClass]="{ 'ring-1 ring-indigo-400': isToday(day) }" class="border border-gray-200 rounded-sm bg-white p-3">
+          <p [ngClass]="{ 'text-indigo-600 font-bold': isToday(day), 'text-gray-500': !isToday(day) }" class="text-xs font-medium mb-2 capitalize">
+            {{ formatWeekDay(day) }}
+          </p>
+          <div class="flex flex-col gap-1 overflow-y-auto max-h-[14rem]">
+            @for (event of eventsForDay(day); track event.id) {
+              <div (click)="openEvent(event)" [ngStyle]="colorStyle(event.color)"
+                class="text-xs px-2 py-1 rounded cursor-pointer hover:opacity-80 transition">
+                @if (event.allDay) { <p class="opacity-60 text-[10px]">Hele dag</p> } @else if (event.startTime) { <p class="opacity-60 text-[10px]">{{ event.startTime }}{{ event.endTime ? ' – ' + event.endTime : '' }}</p> }
+                <p class="font-medium truncate">{{ event.title }}</p>
+              </div>
+            }
+          </div>
         </div>
-      </div>
+      }
+    }
+    @if (!hasEventsInWeek()) {
+      <p class="text-sm text-gray-400 py-4 text-center">Geen events gepland.</p>
     }
   </div>
 }
-
-<!-- Legenda -->
 <div class="flex flex-wrap gap-3 mt-4">
   @for (option of colorOptions; track option[0]) {
     <div class="flex items-center gap-1.5">

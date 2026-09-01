@@ -34,6 +34,14 @@ export class EventsComponent implements OnInit {
 
   readonly events = this.eventService.events;
 
+  hasEventsInMonth = computed(() =>
+    this.monthDays().some(d => isSameMonth(d, this.currentDate()) && this.eventsForDay(d).length > 0)
+  );
+
+  hasEventsInWeek = computed(() =>
+    this.weekDates().some(d => this.eventsForDay(d).length > 0)
+  );
+
   weekDays = ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'];
 
   monthDays = computed(() => {

@@ -6,6 +6,13 @@ import { firstValueFrom } from 'rxjs';
 
 const API_URL = 'https://bzwjgd1pn4.execute-api.eu-west-1.amazonaws.com/prod/events';
 
+export interface Registration {
+  eventId: string;
+  userId: string;
+  userName: string;
+  registeredAt: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class EventService {
   private http = inject(HttpClient);
@@ -69,11 +76,24 @@ export class EventService {
     };
   }
 
-  async deleteEvent(id: string): Promise<void> {
+  async deleteEvent(id: string, date: string): Promise<void> {
     const headers = await this.getHeaders();
-    const event = this.getById(id);
-    const date = event!.date.toISOString().split('T')[0];
     await firstValueFrom(this.http.delete(`${API_URL}/${id}/${date}`, { headers }));
     this.events.update(events => events.filter(e => e.id !== id));
+  }
+
+  async getRegistrations(eventId: string): Promise<Registration[]> {
+    const headers = await this.getHeaders();
+    return firstValueFrom(this.http.get<Registration[]>(`${API_URL}/${eventId}/registrations`, { headers }));
+  }
+
+  async register(eventId: string, childName?: string): Promise<void> {
+    const headers = await this.getHeaders();
+    await firstValueFrom(this.http.put(`${API_URL}/${eventId}/register`, childName ? { childName } : {}, { headers }));
+  }
+
+  async unregister(eventId: string, childName?: string): Promise<void> {
+    const headers = await this.getHeaders();
+    await firstValueFrom(this.http.delete(`${API_URL}/${eventId}/register`, { headers, body: childName ? { childName } : {} }));
   }
 }

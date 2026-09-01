@@ -1,1 +1,78 @@
-<p>Home</p>
+<div>
+  <h1 class="text-2xl font-semibold text-gray-800">Hey {{ name() }}! 👋</h1>
+  <p class="mt-1 text-sm text-gray-400">Welkom terug.</p>
+
+  <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Volgend event detail -->
+    <div class="border border-gray-100 rounded-sm overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-100">
+        <span class="text-xs font-medium text-gray-500">Volgend event</span>
+      </div>
+      @if (nextEvent(); as event) {
+        <div class="px-4 py-4 flex flex-col gap-3">
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-semibold text-gray-800">{{ event.title }}</h2>
+          </div>
+          @if (event.color && EVENT_COLORS[event.color]; as c) {
+            <span class="text-xs font-medium px-2 py-0.5 rounded-sm w-fit" [ngStyle]="{ 'background-color': c.bg, 'color': c.text }">{{ c.label }}</span>
+          }
+          <div class="flex flex-col gap-2 text-sm">
+            <div class="flex gap-2 items-center text-gray-600">
+              <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span class="capitalize">{{ formatDate(event.date) }}</span>
+            </div>
+            @if (event.allDay) {
+              <div class="flex gap-2 items-center text-gray-600">
+                <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Hele dag</span>
+              </div>
+            } @else if (event.startTime) {
+              <div class="flex gap-2 items-center text-gray-600">
+                <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>{{ event.startTime }}{{ event.endTime ? ' – ' + event.endTime : '' }}</span>
+              </div>
+            }
+            @if (event.location) {
+              <div class="flex gap-2 items-center text-gray-600">
+                <svg class="w-4 h-4 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>{{ event.location }}</span>
+              </div>
+            }
+            @if (event.description) {
+              <p class="text-gray-500 text-xs whitespace-pre-line mt-1">{{ event.description }}</p>
+            }
+          </div>
+          <a [routerLink]="['/events', event.id]" class="mt-1 text-xs text-indigo-600 hover:text-indigo-800 transition">Bekijk event →</a>
+        </div>
+      } @else {
+        <p class="px-4 py-4 text-sm text-gray-400">Geen komende events.</p>
+      }
+    </div>
+
+    <!-- Komende events -->
+    <div class="border border-gray-100 rounded-sm overflow-hidden">
+      <div class="px-4 py-3 border-b border-gray-100">
+        <span class="text-xs font-medium text-gray-500">Komende events</span>
+      </div>
+      @if (upcomingEvents().length === 0) {
+        <p class="px-4 py-4 text-sm text-gray-400">Geen komende events.</p>
+      } @else {
+        <div class="flex flex-col divide-y divide-gray-100">
+          @for (event of upcomingEvents(); track event.id) {
+            <a [routerLink]="['/events', event.id]" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition">
+              @if (event.color && EVENT_COLORS[event.color]; as c) {
+                <span class="w-2 h-2 rounded-full shrink-0" [ngStyle]="{ 'background-color': c.bg }"></span>
+              }
+              <div class="flex flex-col gap-0.5 min-w-0">
+                <span class="text-sm text-gray-700 truncate">{{ event.title }}</span>
+                <span class="text-xs text-gray-400 capitalize">{{ formatDate(event.date) }}</span>
+              </div>
+            </a>
+          }
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

@@ -12,6 +12,7 @@ export class ProtectedPageComponent {
   private oidc = inject(OidcSecurityService);
 
   logout() {
-    this.oidc.logoff().subscribe();
+    this.oidc.logoffLocal();
+    window.location.href = `https://eu-west-1ytldlevlw.auth.eu-west-1.amazoncognito.com/logout?client_id=4lhit4sfgffdkvbdd5opa00d4f&logout_uri=${encodeURIComponent(window.location.origin)}`;
   }
 }
