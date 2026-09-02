@@ -11,7 +11,7 @@ export const authConfig: PassedInitialConfig = {
       logout_uri: origin,
     },
     clientId: '4lhit4sfgffdkvbdd5opa00d4f',
-    scope: 'phone openid email',
+    scope: 'phone openid email profile',
     responseType: 'code',
     silentRenew: true,
     useRefreshToken: true,

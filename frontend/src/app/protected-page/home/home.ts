@@ -20,7 +20,13 @@ export class HomeComponent implements OnInit {
   private eventService = inject(EventService);
   readonly EVENT_COLORS = EVENT_COLORS;
 
-  name = toSignal(this.oidc.getUserData().pipe(map(u => u?.given_name ?? u?.name ?? 'daar')));
+  name = toSignal(this.oidc.getIdToken().pipe(map(token => {
+    if (!token) return 'daar';
+    try {
+      const p = JSON.parse(atob(token.split('.')[1]));
+      return p.username || p.given_name || p.name || 'daar';
+    } catch { return 'daar'; }
+  })));
 
   ngOnInit() {
     this.eventService.loadEvents();

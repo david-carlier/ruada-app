@@ -1,7 +1,7 @@
 <!-- Mobile topbar -->
-<div class="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
+<div class="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-800">
   <img src="logo.jpg" alt="Ruada Online" class="h-10 w-auto object-contain" />
-  <button (click)="menuOpen = !menuOpen" class="text-gray-600 hover:text-indigo-600 transition">
+  <button (click)="menuOpen = !menuOpen" class="text-gray-400 hover:text-white transition">
     @if (menuOpen) {
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
     } @else {
@@ -12,25 +12,25 @@
 
 <!-- Mobile menu -->
 @if (menuOpen) {
-  <div class="md:hidden fixed top-[57px] left-0 right-0 z-40 bg-white border-b border-gray-200 px-4 py-3 flex flex-col gap-1">
-    <a routerLink="/" routerLinkActive="bg-indigo-50 text-indigo-600" [routerLinkActiveOptions]="{ exact: true }"
-      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Home</a>
-    <a routerLink="/events" routerLinkActive="bg-indigo-50 text-indigo-600"
-      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Events</a>
-    <a routerLink="/muziek" routerLinkActive="bg-indigo-50 text-indigo-600"
-      (click)="menuOpen = false" class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Muziek</a>
+  <div class="md:hidden fixed top-[57px] left-0 right-0 z-40 bg-gray-900 border-b border-gray-800 px-4 py-3 flex flex-col gap-1">
+    <a routerLink="/" routerLinkActive="bg-gray-800 text-white" [routerLinkActiveOptions]="{ exact: true }"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition">Home</a>
+    <a routerLink="/events" routerLinkActive="bg-gray-800 text-white"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition">Events</a>
+    <a routerLink="/muziek" routerLinkActive="bg-gray-800 text-white"
+      (click)="menuOpen = false" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition">Muziek</a>
 
     @if (user$ | async; as user) {
-      <div class="border-t border-gray-200 mt-2 pt-3">
-        <p class="text-sm font-medium text-gray-800 truncate">{{ user.name }}</p>
+      <div class="border-t border-gray-800 mt-2 pt-3">
+        <p class="text-sm font-medium text-white truncate">{{ user.name }}</p>
         <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
         @if (isAdmin$ | async) {
-          <p class="text-[10px] font-semibold text-indigo-500 tracking-wide mb-3">ADMIN</p>
+          <p class="text-[10px] font-semibold text-indigo-400 tracking-wide mb-3">ADMIN</p>
         } @else {
           <div class="mb-3"></div>
         }
         <button (click)="logoutClick.emit()"
-          class="w-full text-sm text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-sm transition">
+          class="w-full text-sm text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-lg transition">
           Uitloggen
         </button>
       </div>
@@ -39,29 +39,46 @@
 }
 
 <!-- Desktop sidebar -->
-<nav class="hidden md:flex flex-col w-56 h-screen bg-white border-r border-gray-200 px-4 py-6">
-  <img src="logo.jpg" alt="Ruada Online" class="h-[120px] w-auto object-contain mb-8" />
+<nav class="hidden md:flex flex-col w-60 h-screen bg-gray-900 px-4 py-6 shadow-xl">
+  <div class="-mx-4 -mt-6 px-4 py-5 bg-white mb-6 flex justify-center">
+    <img src="logo.jpg" alt="Ruada Online" class="h-[100px] w-auto object-contain" />
+  </div>
 
   <div class="flex flex-col gap-1 flex-1">
-    <a routerLink="/" routerLinkActive="bg-indigo-50 text-indigo-600" [routerLinkActiveOptions]="{ exact: true }"
-      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Home</a>
-    <a routerLink="/events" routerLinkActive="bg-indigo-50 text-indigo-600"
-      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Events</a>
-    <a routerLink="/muziek" routerLinkActive="bg-indigo-50 text-indigo-600"
-      class="px-3 py-2 rounded-sm text-sm font-medium text-gray-700 hover:bg-gray-100 transition">Muziek</a>
+    <a routerLink="/" routerLinkActive="bg-gray-700 text-white" [routerLinkActiveOptions]="{ exact: true }"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Home
+    </a>
+    <a routerLink="/events" routerLinkActive="bg-gray-700 text-white"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      Events
+    </a>
+    <a routerLink="/muziek" routerLinkActive="bg-gray-700 text-white"
+      class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white transition">
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+      Muziek
+    </a>
   </div>
 
   @if (user$ | async; as user) {
-    <div class="border-t border-gray-200 pt-4">
-      <p class="text-sm font-medium text-gray-800 truncate">{{ user.name }}</p>
-      <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
-      @if (isAdmin$ | async) {
-        <p class="text-[10px] font-semibold text-indigo-500 tracking-wide mb-3">ADMIN</p>
-      } @else {
-        <div class="mb-3"></div>
-      }
+    <div class="border-t border-gray-800 pt-4">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-semibold shrink-0">
+          {{ user.name?.charAt(0)?.toUpperCase() }}
+        </div>
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-white truncate">{{ user.name }}</p>
+          @if (isAdmin$ | async) {
+            <p class="text-[10px] font-semibold text-indigo-400 tracking-wide">ADMIN</p>
+          } @else {
+            <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
+          }
+        </div>
+      </div>
       <button (click)="logoutClick.emit()"
-        class="w-full text-sm text-white bg-indigo-600 hover:bg-indigo-700 px-3 py-1.5 rounded-sm transition">
+        class="w-full text-sm text-gray-400 hover:text-white hover:bg-gray-800 px-3 py-1.5 rounded-lg transition text-left">
         Uitloggen
       </button>
     </div>
