@@ -13,7 +13,7 @@ import { nl } from 'date-fns/locale';
   selector: 'app-home',
   imports: [RouterLink, NgStyle],
   templateUrl: './home.html',
-  styleUrl: './home.css',
+
 })
 export class HomeComponent implements OnInit {
   private oidc = inject(OidcSecurityService);
