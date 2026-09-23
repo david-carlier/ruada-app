@@ -35,7 +35,7 @@ jobs:
           aws-region: eu-west-1
 
       - name: Sync to S3
-        run: aws s3 sync dist/frontend s3://ruada-app-frontend --delete
+        run: aws s3 sync frontend/dist/frontend s3://ruada-app-frontend --delete
 
       - name: Invalidate CloudFront
         run: aws cloudfront create-invalidation --distribution-id E3D1YM6NL94OLD --paths "/*"
