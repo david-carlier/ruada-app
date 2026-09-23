@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
+    
     this.oidc!.isAuthenticated$.subscribe(({ isAuthenticated }) => {
       if (isAuthenticated) this.router.navigate(['/']);
     });
