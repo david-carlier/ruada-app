@@ -81,6 +81,10 @@ export class EventDetailComponent implements OnInit {
     this.router.navigate(['/events']);
   }
 
+  edit() {
+    this.router.navigate(['/events', this.event()!.id, 'edit']);
+  }
+
   back() {
     this.router.navigate(['/events']);
   }

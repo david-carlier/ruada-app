@@ -76,6 +76,13 @@ export class EventService {
     };
   }
 
+  async updateEvent(id: string, event: Omit<CalendarEvent, 'id'>): Promise<void> {
+    const headers = await this.getHeaders();
+    const body = { ...event, date: event.date.toISOString().split('T')[0] };
+    await firstValueFrom(this.http.put(`${API_URL}/${id}`, body, { headers }));
+    this.loadEvents();
+  }
+
   async deleteEvent(id: string, date: string): Promise<void> {
     const headers = await this.getHeaders();
     await firstValueFrom(this.http.delete(`${API_URL}/${id}/${date}`, { headers }));
