@@ -4,13 +4,13 @@ const origin = typeof window !== 'undefined' ? window.location.origin : 'https:/
 
 export const authConfig: PassedInitialConfig = {
   config: {
-    authority: 'https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_yTLDLeVlw',
+    authority: 'https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_tJ18X0zlF',
     redirectUrl: origin,
     postLogoutRedirectUri: origin,
     customParamsEndSessionRequest: {
       logout_uri: origin,
     },
-    clientId: '4lhit4sfgffdkvbdd5opa00d4f',
+    clientId: '4ajv3772383fh1jn9srm84etnj',
     scope: 'phone openid email profile',
     responseType: 'code',
     silentRenew: true,
