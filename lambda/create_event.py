@@ -8,7 +8,7 @@ table = dynamodb.Table('ruada-events')
 registrations_table = dynamodb.Table('ruada-registrations')
 cognito = boto3.client('cognito-idp', region_name='eu-west-1')
 
-USER_POOL_ID = 'eu-west-1_yTLDLeVlw'
+USER_POOL_ID = 'eu-west-1_tJ18X0zlF'
 
 def get_all_users():
     users = []
