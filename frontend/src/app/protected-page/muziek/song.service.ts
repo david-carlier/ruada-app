@@ -4,7 +4,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Song } from './song.model';
 import { firstValueFrom } from 'rxjs';
 
-const API_URL = 'https://bzwjgd1pn4.execute-api.eu-west-1.amazonaws.com/prod/songs';
+const API_URL = 'https://api.ruada.nl/songs';
 
 @Injectable({ providedIn: 'root' })
 export class SongService {

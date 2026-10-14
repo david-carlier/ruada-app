@@ -4,7 +4,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { CalendarEvent } from './event.model';
 import { firstValueFrom } from 'rxjs';
 
-const API_URL = 'https://bzwjgd1pn4.execute-api.eu-west-1.amazonaws.com/prod/events';
+const API_URL = 'https://api.ruada.nl/events';
 
 export interface Registration {
   eventId: string;

@@ -4,7 +4,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Combo } from './combo.model';
 import { firstValueFrom } from 'rxjs';
 
-const API_URL = 'https://bzwjgd1pn4.execute-api.eu-west-1.amazonaws.com/prod/combos';
+const API_URL = 'https://api.ruada.nl/combos';
 
 @Injectable({ providedIn: 'root' })
 export class ComboService {
