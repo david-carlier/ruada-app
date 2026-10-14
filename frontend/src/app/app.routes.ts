@@ -10,6 +10,9 @@ import { MuziekComponent } from './protected-page/muziek/muziek';
 import { SongDetailComponent } from './protected-page/muziek/song-detail/song-detail';
 import { SongNewComponent } from './protected-page/muziek/song-new/song-new';
 import { SongEditComponent } from './protected-page/muziek/song-edit/song-edit';
+import { ComboDetailComponent } from './protected-page/muziek/combo-detail/combo-detail';
+import { ComboNewComponent } from './protected-page/muziek/combo-new/combo-new';
+import { ComboEditComponent } from './protected-page/muziek/combo-edit/combo-edit';
 import { DocumentenComponent } from './protected-page/documenten/documenten';
 import { authGuard, adminGuard } from './auth/auth.guard';
 
@@ -28,6 +31,9 @@ export const routes: Routes = [
       { path: 'events/:id/edit', component: EventEditComponent, canActivate: [adminGuard] },
       { path: 'muziek', component: MuziekComponent },
       { path: 'muziek/new', component: SongNewComponent },
+      { path: 'muziek/combo/new', component: ComboNewComponent, canActivate: [adminGuard] },
+      { path: 'muziek/combo/:id', component: ComboDetailComponent },
+      { path: 'muziek/combo/:id/edit', component: ComboEditComponent, canActivate: [adminGuard] },
       { path: 'muziek/:id', component: SongDetailComponent },
       { path: 'muziek/:id/edit', component: SongEditComponent },
       { path: 'documenten', component: DocumentenComponent },

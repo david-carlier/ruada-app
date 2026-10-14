@@ -1,4 +1,4 @@
-export type SongGenre = 'muneira' | 'rumba' | 'jota' | 'pasodoble' | 'maneo' | 'polka';
+export type SongGenre = 'muneira' | 'rumba' | 'jota' | 'pasodoble' | 'maneo' | 'polka' | 'valse';
 
 export const SONG_GENRES: Record<SongGenre, string> = {
   muneira: 'Muñeira',
@@ -7,6 +7,7 @@ export const SONG_GENRES: Record<SongGenre, string> = {
   pasodoble: 'Pasodoble',
   maneo: 'Maneo',
   polka: 'Polka',
+  valse: 'Valse',
 };
 
 export interface Song {
