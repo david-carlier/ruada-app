@@ -10,7 +10,7 @@ export const authConfig: PassedInitialConfig = {
     customParamsEndSessionRequest: {
       logout_uri: origin,
     },
-    clientId: '4ajv3772383fh1jn9srm84etnj',
+    clientId: '24f87befl8vkcjmf4sp4fuhfh0',
     scope: 'phone openid email profile',
     responseType: 'code',
     silentRenew: true,
