@@ -6,5 +6,5 @@ logout(): void {
     window.sessionStorage.clear();
   }
 
-  window.location.href = "https://<user pool domain>/logout?client_id=4lhit4sfgffdkvbdd5opa00d4f&logout_uri=<logout uri>";
+  window.location.href = "https://<user pool domain>/logout?client_id=24f87befl8vkcjmf4sp4fuhfh0&logout_uri=<logout uri>";
 }

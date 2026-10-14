@@ -13,6 +13,6 @@ export class ProtectedPageComponent {
 
   logout() {
     this.oidc.logoffLocal();
-    window.location.href = `https://eu-west-1ytldlevlw.auth.eu-west-1.amazoncognito.com/logout?client_id=4lhit4sfgffdkvbdd5opa00d4f&logout_uri=${encodeURIComponent(window.location.origin)}`;
+    window.location.href = `https://eu-west-1tj18x0zlf.auth.eu-west-1.amazoncognito.com/logout?client_id=24f87befl8vkcjmf4sp4fuhfh0&logout_uri=${encodeURIComponent(window.location.origin)}`;
   }
 }
