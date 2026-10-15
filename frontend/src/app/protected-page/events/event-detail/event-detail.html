@@ -79,23 +79,29 @@
       </div>
     }
 
-    <div class="mt-6 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        @if (children().length > 0) {
-          <select [(ngModel)]="selectedPerson" class="text-sm border border-gray-200 rounded-sm px-2 py-2 text-gray-700">
-            <option value="__self__">Mezelf</option>
-            @for (child of children(); track child) {
-              <option [value]="child">{{ child }}</option>
-            }
-          </select>
-        }
-        <button (click)="toggleRegistration()" [disabled]="registering()"
-          class="text-sm px-4 py-2 rounded-sm font-medium transition disabled:opacity-50 cursor-pointer"
-          [class]="isRegistered ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'">
-          {{ registering() ? '...' : isRegistered ? 'Afmelden' : 'Inschrijven' }}
-        </button>
+    <div class="mt-6">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          @if (children().length > 0) {
+            <select [(ngModel)]="selectedPerson" class="text-sm border border-gray-200 rounded-sm px-2 py-2 text-gray-700">
+              <option value="__self__">Mezelf</option>
+              @for (child of children(); track child) {
+                <option [value]="child">{{ child }}</option>
+              }
+            </select>
+          }
+          <button (click)="toggleRegistration()" [disabled]="registering()"
+            class="text-sm px-4 py-2 rounded-sm font-medium transition disabled:opacity-50 cursor-pointer"
+            [class]="isRegistered ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'">
+            {{ registering() ? '...' : isRegistered ? 'Afmelden' : 'Inschrijven' }}
+          </button>
+        </div>
+        <span class="text-xs text-gray-400">{{ registrations().length }} ingeschreven</span>
       </div>
-      <span class="text-xs text-gray-400">{{ registrations().length }} ingeschreven</span>
+      @if (!isRegistered) {
+        <textarea [(ngModel)]="note" rows="2" placeholder="Opmerking (optioneel)"
+          class="w-full text-sm border border-gray-200 rounded-sm px-3 py-2 text-gray-700 placeholder-gray-400 resize-none mt-2 focus:outline-none focus:ring-1 focus:ring-indigo-300"></textarea>
+      }
     </div>
 
     @if (isAdmin$ | async) {
@@ -106,7 +112,12 @@
           </div>
           <ul class="divide-y divide-gray-50">
             @for (r of registrations(); track r.userId) {
-              <li class="px-4 py-2 text-sm text-gray-700">{{ r.userName }}</li>
+              <li class="px-4 py-2 text-sm text-gray-700">
+                {{ r.userName }}
+                @if (r.note) {
+                  <span class="text-xs text-gray-400 ml-2">— {{ r.note }}</span>
+                }
+              </li>
             }
           </ul>
         </div>

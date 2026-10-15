@@ -29,6 +29,7 @@ export class EventDetailComponent implements OnInit {
   selectedPerson = signal<string>('__self__');
   registering = signal(false);
   deleting = signal(false);
+  note = signal('');
 
   get isRegistered(): boolean {
     const selected = this.selectedPerson();
@@ -61,15 +62,17 @@ export class EventDetailComponent implements OnInit {
     const id = this.event()!.id;
     const selected = this.selectedPerson();
     const childName = selected === '__self__' ? undefined : selected;
+    const note = this.note();
     this.registering.set(true);
     if (this.isRegistered) {
       await this.eventService.unregister(id, childName);
       const userId = childName ? `child#${this.currentUserId()}#${childName}` : this.currentUserId();
       this.registrations.update(r => r.filter(x => x.userId !== userId));
     } else {
-      await this.eventService.register(id, childName);
+      await this.eventService.register(id, childName, note);
       const regs = await this.eventService.getRegistrations(id);
       this.registrations.set(regs);
+      this.note.set('');
     }
     this.registering.set(false);
   }

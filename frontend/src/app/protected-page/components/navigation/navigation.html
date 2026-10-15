@@ -1,6 +1,6 @@
 <!-- Mobile topbar -->
 <div class="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
-  <img src="logo.jpg" alt="Ruada Online" class="h-10 w-auto object-contain" />
+  <a routerLink="/" (click)="menuOpen = false"><img src="logo.jpg" alt="Ruada Online" class="h-10 w-auto object-contain" /></a>
   <button (click)="menuOpen = !menuOpen" class="text-gray-600 hover:text-gray-900 transition">
     @if (menuOpen) {
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -12,7 +12,7 @@
 
 <!-- Mobile menu -->
 @if (menuOpen) {
-  <div class="md:hidden fixed top-[57px] left-0 right-0 z-40 bg-gray-900 border-b border-gray-800 px-4 py-3 flex flex-col gap-1">
+  <div class="md:hidden fixed top-[57px] left-0 right-0 z-40 bg-gray-900 border-b border-gray-800 px-4 pt-6 pb-3 flex flex-col gap-1">
     <a routerLink="/" routerLinkActive="bg-gray-800 text-white" [routerLinkActiveOptions]="{ exact: true }"
       (click)="menuOpen = false" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:bg-gray-800 hover:text-white transition">Home</a>
     <a routerLink="/events" routerLinkActive="bg-gray-800 text-white"

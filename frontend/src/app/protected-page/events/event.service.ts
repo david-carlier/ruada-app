@@ -11,6 +11,7 @@ export interface Registration {
   userId: string;
   userName: string;
   registeredAt: string;
+  note?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -94,9 +95,12 @@ export class EventService {
     return firstValueFrom(this.http.get<Registration[]>(`${API_URL}/${eventId}/registrations`, { headers }));
   }
 
-  async register(eventId: string, childName?: string): Promise<void> {
+  async register(eventId: string, childName?: string, note?: string): Promise<void> {
     const headers = await this.getHeaders();
-    await firstValueFrom(this.http.put(`${API_URL}/${eventId}/register`, childName ? { childName } : {}, { headers }));
+    const body: any = {};
+    if (childName) body['childName'] = childName;
+    if (note) body['note'] = note;
+    await firstValueFrom(this.http.put(`${API_URL}/${eventId}/register`, body, { headers }));
   }
 
   async unregister(eventId: string, childName?: string): Promise<void> {

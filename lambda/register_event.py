@@ -39,10 +39,14 @@ def handler(event, context):
         fallback = claims.get('cognito:username') or claims.get('email', '')
         user_name = get_user_name(parent_id, fallback)
 
-    table.put_item(Item={
+    item = {
         'eventId': event_id,
         'userId': user_id,
         'userName': user_name,
         'registeredAt': datetime.now(timezone.utc).isoformat(),
-    })
+    }
+    note = body.get('note', '').strip()
+    if note:
+        item['note'] = note
+    table.put_item(Item=item)
     return {'statusCode': 200, 'body': json.dumps({'registered': True})}
