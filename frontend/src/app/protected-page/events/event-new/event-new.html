@@ -13,6 +13,11 @@
         class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400" />
     </div>
 
+    <div class="flex flex-col gap-1 mb-8">
+      <textarea [(ngModel)]="form.description" name="description" rows="3"
+        class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400 resize-none"></textarea>
+    </div>
+
     <div class="flex flex-col gap-1">
       <label class="text-xs font-medium text-gray-700">Datum *</label>
       <input [(ngModel)]="form.date" name="date" type="date" required
@@ -41,32 +46,6 @@
     }
 
     <div class="flex flex-col gap-1">
-      <label class="text-xs font-medium text-gray-700">Locatie</label>
-      <input [(ngModel)]="form.location" name="location" type="text"
-        class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400" />
-    </div>
-
-    <div class="flex flex-col gap-1">
-      <label class="text-xs font-medium text-gray-700">Beschrijving</label>
-      <textarea [(ngModel)]="form.description" name="description" rows="3"
-        class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400 resize-none"></textarea>
-    </div>
-
-    <div class="flex flex-col gap-1">
-      <label class="text-xs font-medium text-gray-700">Kleur</label>
-      <div class="flex gap-2 flex-wrap">
-        @for (option of colorOptions; track option[0]) {
-          <button type="button" (click)="form.color = option[0]"
-            [ngStyle]="{ 'background-color': option[1].bg }"
-            [class.ring-2]="form.color === option[0]"
-            class="px-3 py-1.5 rounded-sm text-xs font-medium ring-gray-400 transition">
-            {{ option[1].label }}
-          </button>
-        }
-      </div>
-    </div>
-
-    <div class="flex flex-col gap-1">
       <label class="text-xs font-medium text-gray-700">Herhaling</label>
       <select [(ngModel)]="form.recurrenceRule" name="recurrenceRule"
         class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400">
@@ -88,6 +67,26 @@
         </div>
       </div>
     }
+
+    <div class="flex flex-col gap-1 mt-8">
+      <label class="text-xs font-medium text-gray-700">Locatie</label>
+      <input [(ngModel)]="form.location" name="location" type="text"
+        class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400" />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="text-xs font-medium text-gray-700">Soort event</label>
+      <div class="flex gap-2 flex-wrap">
+        @for (option of colorOptions; track option[0]) {
+          <button type="button" (click)="form.color = option[0]"
+            [ngStyle]="{ 'background-color': option[1].bg }"
+            [class.ring-2]="form.color === option[0]"
+            class="px-3 py-1.5 rounded-sm text-xs font-medium ring-gray-400 transition">
+            {{ option[1].label }}
+          </button>
+        }
+      </div>
+    </div>
 
     <div class="flex gap-3 mt-2">
       <button type="submit" [disabled]="saving()"
