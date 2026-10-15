@@ -15,13 +15,17 @@ export const adminGuard: CanActivateFn = () => {
   );
 };
 
-export const authGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = (route, state) => {
   if (!isPlatformBrowser(inject(PLATFORM_ID))) return true;
 
   const oidc = inject(OidcSecurityService);
   const router = inject(Router);
 
   return oidc.isAuthenticated$.pipe(
-    map(({ isAuthenticated }) => isAuthenticated || router.createUrlTree(['/login']))
+    map(({ isAuthenticated }) => {
+      if (isAuthenticated) return true;
+      sessionStorage.setItem('redirectUrl', state.url);
+      return router.createUrlTree(['/login']);
+    })
   );
 };

@@ -19,7 +19,11 @@ export class LoginComponent implements OnInit {
     if (!this.isBrowser) return;
     
     this.oidc!.isAuthenticated$.subscribe(({ isAuthenticated }) => {
-      if (isAuthenticated) this.router.navigate(['/']);
+      if (isAuthenticated) {
+        const redirect = sessionStorage.getItem('redirectUrl') || '/';
+        sessionStorage.removeItem('redirectUrl');
+        this.router.navigateByUrl(redirect);
+      }
     });
   }
 
