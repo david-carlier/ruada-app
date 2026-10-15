@@ -66,6 +66,29 @@
       </div>
     </div>
 
+    <div class="flex flex-col gap-1">
+      <label class="text-xs font-medium text-gray-700">Herhaling</label>
+      <select [(ngModel)]="form.recurrenceRule" name="recurrenceRule"
+        class="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-400">
+        <option value="">Geen</option>
+        <option value="weekly">Elke week</option>
+        <option value="monthly">Elke maand</option>
+        <option value="every2months">Elke 2 maanden</option>
+        <option value="every3months">Elke 3 maanden</option>
+      </select>
+    </div>
+
+    @if (form.recurrenceRule) {
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-gray-700">Aantal herhalingen *</label>
+        <div class="flex items-center gap-2">
+          <input [(ngModel)]="form.recurrenceCount" name="recurrenceCount" type="number" min="2" max="104"
+            class="border border-gray-200 rounded-sm px-3 py-2 text-sm w-24 focus:outline-none focus:ring-1 focus:ring-indigo-400" />
+          <span class="text-xs text-gray-400">{{ recurrenceLabel }}</span>
+        </div>
+      </div>
+    }
+
     <div class="flex gap-3 mt-2">
       <button type="submit" [disabled]="saving()"
         class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-sm transition disabled:opacity-50">

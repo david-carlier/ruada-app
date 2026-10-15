@@ -1,9 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
 import { EventService } from '../event.service';
-import { EVENT_COLORS, EventColor } from '../event.model';
+import { EVENT_COLORS, EventColor, RecurrenceRule } from '../event.model';
 
 @Component({
   selector: 'app-event-new',
@@ -26,7 +26,14 @@ export class EventNewComponent {
     color: 'oefenen' as EventColor,
     location: '',
     description: '',
+    recurrenceRule: '' as RecurrenceRule | '',
+    recurrenceCount: 4,
   };
+
+  get recurrenceLabel(): string {
+    const unit = this.form.recurrenceRule === 'weekly' ? 'weken' : 'maanden';
+    return `totaal ${this.form.recurrenceCount} ${unit}`;
+  }
 
   private nextHour(offset = 0): string {
     const d = new Date();
@@ -54,6 +61,8 @@ export class EventNewComponent {
       location: this.form.location || undefined,
       allDay: this.form.allDay || undefined,
       description: this.form.description || undefined,
+      recurrenceRule: this.form.recurrenceRule || undefined,
+      recurrenceCount: this.form.recurrenceRule ? this.form.recurrenceCount : undefined,
     });
     this.saving.set(false);
     this.router.navigate(['/events']);

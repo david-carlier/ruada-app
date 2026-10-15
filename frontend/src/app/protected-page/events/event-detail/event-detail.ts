@@ -29,6 +29,7 @@ export class EventDetailComponent implements OnInit {
   selectedPerson = signal<string>('__self__');
   registering = signal(false);
   deleting = signal(false);
+  confirmDelete = signal(false);
   note = signal('');
 
   get isRegistered(): boolean {
@@ -95,10 +96,19 @@ export class EventDetailComponent implements OnInit {
     }
   }
 
-  async delete() {
+  requestDelete() {
+    if (this.event()?.recurrenceId) {
+      this.confirmDelete.set(true);
+    } else {
+      this.delete('single');
+    }
+  }
+
+  async delete(mode: 'single' | 'future') {
     const ev = this.event()!;
     this.deleting.set(true);
-    await this.eventService.deleteEvent(ev.id, ev.date.toISOString().split('T')[0]);
+    this.confirmDelete.set(false);
+    await this.eventService.deleteEvent(ev.id, ev.date.toISOString().split('T')[0], mode, ev.recurrenceId);
     this.router.navigate(['/events']);
   }
 

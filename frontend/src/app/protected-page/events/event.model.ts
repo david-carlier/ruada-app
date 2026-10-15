@@ -8,6 +8,8 @@ export const EVENT_COLORS: Record<EventColor, { bg: string; text: string; label:
   verjaardag: { bg: '#b9fbc0', text: '#14532d', label: 'Verjaardag' },
 };
 
+export type RecurrenceRule = 'weekly' | 'monthly' | 'every2months' | 'every3months';
+
 export interface CalendarEvent {
   id: string;
   title: string;
@@ -18,4 +20,6 @@ export interface CalendarEvent {
   location?: string;
   allDay?: boolean;
   description?: string;
+  recurrenceId?: string;
+  recurrenceRule?: RecurrenceRule;
 }

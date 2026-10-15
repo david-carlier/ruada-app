@@ -40,14 +40,16 @@ export class EventService {
           location: i.location,
           allDay: i.allDay === true || i.allDay === 'true',
           description: i.description,
+          recurrenceId: i.recurrenceId,
+          recurrenceRule: i.recurrenceRule,
         })));
       });
     });
   }
 
-  async createEvent(event: Omit<CalendarEvent, 'id'>): Promise<void> {
+  async createEvent(event: Omit<CalendarEvent, 'id'> & { recurrenceCount?: number }): Promise<void> {
     const headers = await this.getHeaders();
-    const body = {
+    const body: any = {
       ...event,
       date: event.date.toISOString().split('T')[0],
     };
@@ -74,6 +76,8 @@ export class EventService {
       location: i.location,
       allDay: i.allDay === true || i.allDay === 'true',
       description: i.description,
+      recurrenceId: i.recurrenceId,
+      recurrenceRule: i.recurrenceRule,
     };
   }
 
@@ -84,10 +88,16 @@ export class EventService {
     this.loadEvents();
   }
 
-  async deleteEvent(id: string, date: string): Promise<void> {
+  async deleteEvent(id: string, date: string, deleteMode: 'single' | 'future' = 'single', recurrenceId?: string): Promise<void> {
     const headers = await this.getHeaders();
-    await firstValueFrom(this.http.delete(`${API_URL}/${id}/${date}`, { headers }));
-    this.events.update(events => events.filter(e => e.id !== id));
+    const body: any = { deleteMode };
+    if (deleteMode === 'future' && recurrenceId) body['recurrenceId'] = recurrenceId;
+    await firstValueFrom(this.http.delete(`${API_URL}/${id}/${date}`, { headers, body }));
+    if (deleteMode === 'future' && recurrenceId) {
+      this.events.update(events => events.filter(e => !(e.recurrenceId === recurrenceId && e.date >= new Date(date))));
+    } else {
+      this.events.update(events => events.filter(e => e.id !== id));
+    }
   }
 
   async getRegistrations(eventId: string): Promise<Registration[]> {
