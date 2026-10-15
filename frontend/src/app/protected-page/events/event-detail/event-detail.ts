@@ -77,6 +77,24 @@ export class EventDetailComponent implements OnInit {
     this.registering.set(false);
   }
 
+  async share(event: CalendarEvent) {
+    const date = this.formatDate(event.date);
+    const time = event.allDay ? 'Hele dag' : event.startTime ? `${event.startTime}${event.endTime ? ' – ' + event.endTime : ''}` : '';
+    const lines = [
+      `📅 ${event.title}`,
+      `🗓 ${date}${time ? ' · ' + time : ''}`,
+      event.location ? `📍 ${event.location}` : '',
+      event.description ? `\n${event.description}` : '',
+      `\n${window.location.href}`,
+    ].filter(Boolean).join('\n');
+
+    if (navigator.share) {
+      await navigator.share({ text: lines });
+    } else {
+      await navigator.clipboard.writeText(lines);
+    }
+  }
+
   async delete() {
     const ev = this.event()!;
     this.deleting.set(true);
